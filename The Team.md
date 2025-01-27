@@ -10,5 +10,7 @@ Huzair is a second-year master's student in Computer Science at DePaul Universit
 
 * Atif Siddiqui
 * Mahadev Reddy Kasireddy
+
+Hi, my name is Mahadev and I am a computer science master’s student at DePaul University. I am intrested in Backend Development, Cloud Computing and Devops. In my spare time, I enjoy gaming, reading, and watching soccer.
 * Srinivas Bakkashetti
    
