@@ -19,4 +19,6 @@ animation software, and my current workflows include heavy use of java and pytho
 Hi, my name is Mahadev and I am a computer science master’s student at DePaul University. I am intrested in Backend Development, Cloud Computing and Devops. In my spare time, I enjoy gaming, reading, and watching soccer.
 
 * Srinivas Bakkashetti
+
+Hello! I am Srinivas Bakkashetti, pursuing Master's in Computer Science at DePaul University. I have around one year of work experience as a java developer. I Love to cook food, play and watch cricket in my free time.
    
