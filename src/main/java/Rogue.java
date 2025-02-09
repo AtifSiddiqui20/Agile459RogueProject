@@ -4,6 +4,7 @@ import UserInterface.Interface;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import asciiPanel.AsciiPanel;
 
 public class Rogue {
 
@@ -13,7 +14,7 @@ public class Rogue {
 
     private boolean isRunning;
     private final int frameRate = 60;
-    private int timePerLoop = 100000 / frameRate;
+    private int timePerLoop = 100 / frameRate;
 
     private final Interface ui;
 
@@ -21,13 +22,13 @@ public class Rogue {
         this.name = name;
         this.player = new Creature("Player", 'O', Color.WHITE, 10, 10);
         this.ui = new Interface(this.name, 80, 24);
+
     }
 
 
     public void processInput() {
         InputEvent event = ui.getNextInput();
-        if (event instanceof KeyEvent) {
-            KeyEvent keyPress = (KeyEvent) event;
+        if (event instanceof KeyEvent keyPress) {
             switch (keyPress.getKeyCode()) {
                 case KeyEvent.VK_ESCAPE:
                     isRunning = false;
@@ -51,7 +52,9 @@ public class Rogue {
     public void render() {
         ui.clear();
         ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
+        ui.drawString("Welcome to Rogue!", 1, 1, Color.WHITE);
         ui.refresh();
+
     }
 
     public void run() {

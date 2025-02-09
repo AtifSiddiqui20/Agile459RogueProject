@@ -3,14 +3,37 @@ package UserInterface;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import asciiPanel.AsciiPanel;
 
 
 public class Interface extends JFrame implements KeyListener, MouseListener {
+
+    private static final long serialVersionUID = 1L;
+
+    private AsciiPanel terminal;
+    private Queue<InputEvent> inputQueue;
+
+    private int width;
+    private int height;
+
     public Interface(String title, int width, int height) {
         super(title);
-        setSize(width, height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        this.height = height;
+        this.width = width;
+        terminal = new AsciiPanel(width, height);
+        inputQueue = new LinkedList<>();
+        super.setVisible(true);
+        super.add(terminal);
+        super.pack();
+        terminal.write("Welcome to Rogue!", 1, 1);
+        super.addKeyListener(this);
+        super.addMouseListener(this);
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        super.repaint();
     }
 
     @Override
@@ -20,6 +43,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        inputQueue.add(e);
 
     }
 
@@ -30,6 +54,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        inputQueue.add(e);
 
     }
 
@@ -54,15 +79,26 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
     }
 
     public InputEvent getNextInput() {
-        return null;
+        return inputQueue.poll();
     }
 
     public void clear() {
+        terminal.clear();
     }
 
+
+
+
     public void drawChar(char glyph, int x, int y, Color color) {
+
+        terminal.write(glyph, x, y, color);
     }
 
     public void refresh() {
+        terminal.repaint();
+    }
+
+    public void drawString(String s, int i, int i1, Color white) {
+        terminal.write(s, i, i1, white);
     }
 }
