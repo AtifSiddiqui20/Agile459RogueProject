@@ -25,6 +25,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
         this.width = width;
         terminal = new AsciiPanel(width, height);
         inputQueue = new LinkedList<>();
+        super.setVisible(true);
         super.add(terminal);
         super.pack();
         //terminal.write("Welcome to Rogue!", 1, 1);
