@@ -25,7 +25,6 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
         this.width = width;
         terminal = new AsciiPanel(width, height);
         inputQueue = new LinkedList<>();
-        super.setVisible(true);
         super.add(terminal);
         super.pack();
         //terminal.write("Welcome to Rogue!", 1, 1);
@@ -98,7 +97,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
         terminal.repaint();
     }
 
-    public void drawString(String s, int i, int i1, Color white) {
-        terminal.write(s, i, i1, white);
+    public void drawString(String s, int x, int y, Color white) {
+        terminal.write(s, x, y, white);
     }
 }
