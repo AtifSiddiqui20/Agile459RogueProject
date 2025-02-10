@@ -20,6 +20,8 @@ dependencies {
     // JUnit for testing
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'org.mockito:mockito-core:5.7.0'
 }
 
 application {
@@ -29,4 +31,8 @@ application {
 
 test {
     useJUnitPlatform() // Use JUnit Platform for running tests
+
+    testLogging {
+        events "passed", "failed", "skipped"
+    }
 }

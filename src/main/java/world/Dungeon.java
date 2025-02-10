@@ -20,7 +20,7 @@ public class Dungeon {
         generateDungeon();
     }
 
-    private void generateDungeon() {
+    public void generateDungeon() {
         // Fill map with walls (`#`)
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -159,15 +159,15 @@ public class Dungeon {
         }
     }
     public int[] findSpawnLocation() {
-        if (rooms.isEmpty()) {
-            return new int[]{1, 1}; // Fallback in case no rooms were generated
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (map[x][y] == '.') {
+                    return new int[]{x, y};
+                }
+            }
         }
-
-        Room startRoom = rooms.get(0); // Get the first room
-        int spawnX = startRoom.x + 1; // Inside the room, not on the walls
-        int spawnY = startRoom.y + 1;
-
-        return new int[]{spawnX, spawnY};
+        throw new IllegalArgumentException("No valid spawn found in dungeon.");
     }
+
 
 }
