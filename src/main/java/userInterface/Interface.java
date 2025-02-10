@@ -28,7 +28,7 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
         super.setVisible(true);
         super.add(terminal);
         super.pack();
-        terminal.write("Welcome to Rogue!", 1, 1);
+        //terminal.write("Welcome to Rogue!", 1, 1);
         super.addKeyListener(this);
         super.addMouseListener(this);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
