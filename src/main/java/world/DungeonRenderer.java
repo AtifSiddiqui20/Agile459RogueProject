@@ -20,6 +20,7 @@ public class DungeonRenderer {
             for (int y = 0; y < map[0].length; y++) {
                 if (traversed[x][y]) {
                     Color tileColor;
+
                     switch (map[x][y]) {
                         case '#':
                             tileColor = Color.ORANGE;
@@ -35,16 +36,17 @@ public class DungeonRenderer {
                             break;   // Hidden
                     }
                     ui.drawChar(map[x][y], x, y, tileColor);
+
                 } else {
                     ui.drawChar(' ', x, y, Color.BLACK);
                 }
-
             }
         }
 
-        // Draw player
-        ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
+            // Draw player
+            ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
 
-        ui.refresh();
+            ui.refresh();
+        }
     }
-}
+
