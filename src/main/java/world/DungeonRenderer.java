@@ -43,10 +43,20 @@ public class DungeonRenderer {
             }
         }
 
-            // Draw player
-            ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
-
-            ui.refresh();
-        }
+        // Draw player
+        ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
+        // Render Player Stats
+        renderPlayerStats(player);
+        ui.refresh();
     }
+    private void renderPlayerStats(Creature player) {
+        int statsX = 65;
+        int statsY = 2;
+
+        ui.drawString("Player Stats", statsX, statsY, Color.WHITE);
+        ui.drawString("Health: " + player.getHealth() + "/" + player.getMaxHealth(), statsX, statsY + 2, Color.GREEN);
+        ui.drawString("Attack: " + player.getAttack(), statsX, statsY + 3, Color.RED);
+        ui.drawString("Defense: " + player.getDefense(), statsX, statsY + 4, Color.YELLOW);
+    }
+}
 
