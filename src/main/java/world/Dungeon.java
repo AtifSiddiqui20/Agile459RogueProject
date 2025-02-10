@@ -8,6 +8,7 @@ public class Dungeon {
     private final int width;
     private final int height;
     private final char[][] map;
+    private final boolean [][] traversed;
     private final Random random = new Random();
     private final List<Room> rooms = new ArrayList<>();
 
@@ -15,6 +16,7 @@ public class Dungeon {
         this.width = width;
         this.height = height;
         this.map = new char[width][height];
+        this.traversed = new boolean[width][height];
         generateDungeon();
     }
 
@@ -107,8 +109,41 @@ public class Dungeon {
         }
     }
 
+    public boolean isTraversed(int x, int y) {
+        return traversed[x][y];
+    }
+
+    public void markTraversed(int x, int y) {
+        if (x >= 0 && x < width && y >= 0 && y < height){
+            traversed[x][y] = true;
+            revealAdjacentTiles(x, y);
+        }
+
+    }
+
+    private void revealAdjacentTiles(int x, int y) {
+        int [][] directions = {
+                {-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                {-1, -1}, {1, -1}, {-1, 1}, {1, 1}
+    };
+
+        for (int [] dir : directions) {
+            int dx = dir[0];
+            int dy = dir[1];
+            int newX = x + dx;
+            int newY = y + dy;
+            if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                traversed[newX][newY] = true;
+            }
+        }
+    }
+
     public char[][] getMap() {
         return map;
+    }
+
+    public boolean[][] getTraversedMap() {
+        return traversed;
     }
 
     public List<Room> getRooms() {

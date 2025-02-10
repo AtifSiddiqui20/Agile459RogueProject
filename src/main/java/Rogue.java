@@ -50,6 +50,10 @@ public class Rogue {
                 case KeyEvent.VK_LEFT -> newX--;
                 case KeyEvent.VK_RIGHT -> newX++;
             }
+            if (dungeon.getMap()[newX][newY] != '#') {
+                player.moveBy(newX - player.getX(), newY - player.getY());
+                dungeon.markTraversed(newX, newY);
+            }
 
             // Prevent moving into walls
             if (dungeon.getMap()[newX][newY] == '.') {

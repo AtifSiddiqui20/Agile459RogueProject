@@ -14,19 +14,31 @@ public class DungeonRenderer {
     public void render(Dungeon dungeon, Creature player) {
         ui.clear();
         char[][] map = dungeon.getMap();
+        boolean[][] traversed = dungeon.getTraversedMap();
 
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
-                Color tileColor;
-
-                switch (map[x][y]) {
-                    case '#': tileColor = Color.ORANGE; break; // Walls
-                    case '.': tileColor = Color.GRAY; break;   // Floor
-                    case '+': tileColor = Color.RED; break;    // Doors
-                    default: tileColor = Color.BLACK; break;   // Hidden
+                if (traversed[x][y]) {
+                    Color tileColor;
+                    switch (map[x][y]) {
+                        case '#':
+                            tileColor = Color.ORANGE;
+                            break; // Walls
+                        case '.':
+                            tileColor = Color.GRAY;
+                            break;   // Floor
+                        case '+':
+                            tileColor = Color.RED;
+                            break;    // Doors
+                        default:
+                            tileColor = Color.BLACK;
+                            break;   // Hidden
+                    }
+                    ui.drawChar(map[x][y], x, y, tileColor);
+                } else {
+                    ui.drawChar(' ', x, y, Color.BLACK);
                 }
 
-                ui.drawChar(map[x][y], x, y, tileColor);
             }
         }
 
