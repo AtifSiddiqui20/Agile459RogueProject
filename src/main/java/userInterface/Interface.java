@@ -33,7 +33,12 @@ public class Interface extends JFrame implements KeyListener, MouseListener {
         super.addMouseListener(this);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        super.setLocationRelativeTo(null); // Center the window on the screen
+        super.setAlwaysOnTop(true);       // Bring the window to the foreground
+        super.toFront();                  // Force the window to the front
         super.repaint();
+        super.requestFocus();
+        super.setAlwaysOnTop(false);
     }
 
     @Override
