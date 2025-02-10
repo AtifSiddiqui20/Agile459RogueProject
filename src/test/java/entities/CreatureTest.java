@@ -46,4 +46,22 @@ class CreatureTest {
         assertEquals(7, creature.getX());
         assertEquals(6, creature.getY());
     }
+
+    @Test
+    void testDefaultHealth() {
+        Creature creature = new Creature("Player", '@', Color.WHITE, 5, 5);
+        assertEquals(5, creature.getX());
+    }
+
+    @Test
+    void testDefaultExperience() {
+        Creature creature = new Creature("Player", '@', Color.WHITE, 5, 5);
+        assertEquals(5, creature.getY());
+    }
+
+    @Test
+    void testDefaultGold() {
+        Creature creature = new Creature("Player", '@', Color.WHITE, 5, 5);
+        assertEquals('@', creature.getGlyph());
+    }
 }

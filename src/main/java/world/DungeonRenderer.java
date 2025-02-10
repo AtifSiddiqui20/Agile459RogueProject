@@ -50,13 +50,19 @@ public class DungeonRenderer {
         ui.refresh();
     }
     private void renderPlayerStats(Creature player) {
-        int statsX = 65;
-        int statsY = 2;
+        int statsX = 2; // X-coordinate to start displaying stats at the bottom
+        int statsY = 22;  // Ensure this stays within screen bounds
 
-        ui.drawString("Player Stats", statsX, statsY, Color.WHITE);
-        ui.drawString("Health: " + player.getHealth() + "/" + player.getMaxHealth(), statsX, statsY + 2, Color.GREEN);
-        ui.drawString("Attack: " + player.getAttack(), statsX, statsY + 3, Color.RED);
-        ui.drawString("Defense: " + player.getDefense(), statsX, statsY + 4, Color.YELLOW);
+
+
+        String stats = String.format(
+                "Level:%d  Hits:%d(%d)  Str:%d(%d)  Gold:%d  Armor:%d  Exp:%d/%d",
+                player.getLevel(), player.getHealth(), player.getMaxHealth(),
+                player.getAttack(), player.getAttack(), player.getGold(),
+                player.getDefense(), player.getExperience(), player.getExperienceToNextLevel()
+        );
+
+        ui.drawString(stats, statsX, statsY, Color.YELLOW);
     }
 }
 
