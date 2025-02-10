@@ -1,10 +1,9 @@
-import Entities.Creature;
-import UserInterface.Interface;
+import entities.Creature;
+import userInterface.Interface;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import asciiPanel.AsciiPanel;
 
 public class Rogue {
 
@@ -14,7 +13,7 @@ public class Rogue {
 
     private boolean isRunning;
     private final int frameRate = 60;
-    private int timePerLoop = 100 / frameRate;
+    private int timePerLoop = 1000 / frameRate;
 
     private final Interface ui;
 
@@ -30,21 +29,11 @@ public class Rogue {
         InputEvent event = ui.getNextInput();
         if (event instanceof KeyEvent keyPress) {
             switch (keyPress.getKeyCode()) {
-                case KeyEvent.VK_ESCAPE:
-                    isRunning = false;
-                    break;
-                case KeyEvent.VK_UP:
-                    player.moveBy(0, -1);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    player.moveBy(0, 1);
-                    break;
-                case KeyEvent.VK_LEFT:
-                    player.moveBy(-1, 0);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    player.moveBy(1, 0);
-                    break;
+                case KeyEvent.VK_ESCAPE -> isRunning = false;
+                case KeyEvent.VK_UP -> player.moveBy(0, -1);
+                case KeyEvent.VK_DOWN -> player.moveBy(0, 1);
+                case KeyEvent.VK_LEFT -> player.moveBy(-1, 0);
+                case KeyEvent.VK_RIGHT -> player.moveBy(1, 0);
             }
         }
     }
