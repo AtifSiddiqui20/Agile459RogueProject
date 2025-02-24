@@ -2,6 +2,7 @@ package entities;
 
 
 import java.awt.*;
+import java.util.Random;
 
 public class Creature extends Entity {
     private int health;
@@ -10,8 +11,13 @@ public class Creature extends Entity {
     private int defense;
     private int level;
     private int experience;
+    private int strength;
     private int experienceToNextLevel;
     private int gold;
+    private int attackBonus;
+    private int damageBonus;
+    private static final Random random = new Random();
+
 
     public Creature(String name, char glyph, Color color, int x, int y) {
         super(name, glyph, color, x, y);
@@ -23,8 +29,51 @@ public class Creature extends Entity {
         this.experience = 0;
         this.experienceToNextLevel = 100;
         this.gold = 0;
+        calculateModifiers();
     }
 
+    private void calculateModifiers() {
+        // Attack Bonus
+        if (strength < 8) attackBonus = -7;
+        else if (strength < 17) attackBonus = -4;
+        else if (strength < 19) attackBonus = -3;
+        else if (strength < 21) attackBonus = -2;
+        else if (strength < 31) attackBonus = -1;
+        else attackBonus = 0;
+
+        // Damage Bonus
+        if (strength < 8) damageBonus = -7;
+        else if (strength < 16) damageBonus = -6;
+        else if (strength < 17) damageBonus = -5;
+        else if (strength < 18) damageBonus = -4;
+        else if (strength < 20) damageBonus = -3;
+        else if (strength < 22) damageBonus = -2;
+        else if (strength < 31) damageBonus = -1;
+        else damageBonus = 0;
+    }
+
+    public void setStrength(int strength) {
+        if (strength < 3) {
+            this.strength = 3;  //  Minimum strength is 3
+        } else if (strength > 31) {
+            this.strength = 31; //  Maximum strength is 31
+        } else {
+            this.strength = strength;
+        }
+        calculateModifiers(); //  Recalculate attack and damage bonuses
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getAttackBonus() {
+        return attackBonus;
+    }
+
+    public int getDamageBonus() {
+        return damageBonus;
+    }
     public void moveBy(int mx, int my) {
         x += mx;
         y += my;
@@ -39,6 +88,18 @@ public class Creature extends Entity {
         return maxHealth;
     }
 
+    public boolean attackRoll(int defenderArmor) {
+        int roll = random.nextInt(20) + 1; // 1d20
+        int required = 20 - this.level - defenderArmor + this.attackBonus; // Attack formula
+        return roll > required;
+    }
+
+
+    public int dealDamage() {
+        int baseDamage = random.nextInt(4) + 1; // 1d4 for player, monster damage will override
+        return Math.max(baseDamage + damageBonus, 1); // Minimum 1 damage
+    }
+
     public void takeDamage(int amount) {
         int damage = Math.max(0, amount - defense);
         health -= damage;
@@ -50,6 +111,9 @@ public class Creature extends Entity {
         if (health > maxHealth) health = maxHealth;
     }
 
+    public boolean isAlive() {
+        return health > 0;
+    }
     // Attack methods
     public int getAttack() {
         return attack;
@@ -102,6 +166,11 @@ public class Creature extends Entity {
     public int getGold() {
         return gold;
     }
+
+    public int getArmor() {
+        return 5; // Placeholder: We'll update armor logic later
+    }
+
 
     public void addGold(int amount) {
         gold += amount;
