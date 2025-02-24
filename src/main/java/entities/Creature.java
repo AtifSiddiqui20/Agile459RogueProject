@@ -4,10 +4,10 @@ package entities;
 import java.awt.*;
 
 public class Creature extends Entity {
-    private int health;
-    private int maxHealth;
-    private int attack;
-    private int defense;
+    int health;
+    int maxHealth;
+    int attack;
+    int defense;
     private int level;
     private int experience;
     private int experienceToNextLevel;

@@ -1,5 +1,8 @@
 package world;
 
+import entities.Enemy;
+import entities.Skeleton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +14,8 @@ public class Dungeon {
     private final boolean [][] traversed;
     private final Random random = new Random();
     private final List<Room> rooms = new ArrayList<>();
+    private final List<Enemy> enemies = new ArrayList<>();
+
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -18,6 +23,21 @@ public class Dungeon {
         this.map = new char[width][height];
         this.traversed = new boolean[width][height];
         generateDungeon();
+        spawnEnemies(5);
+    }
+
+    private void spawnEnemies(int count) {
+        for (int i = 0; i < count; i++) {
+            int x, y;
+            do {
+                x = random.nextInt(width);
+                y = random.nextInt(height);
+            } while (map[x][y] != '.'); // Ensure spawning on a floor tile
+
+            Enemy enemy = new Skeleton(x, y); // Example enemy type
+            enemies.add(enemy);
+        }
+
     }
 
     public void generateDungeon() {
@@ -57,6 +77,10 @@ public class Dungeon {
 
         // Add doors on room walls
         addDoorsToRoom(room);
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 
     private void addDoorsToRoom(Room room) {
@@ -169,5 +193,5 @@ public class Dungeon {
         throw new IllegalArgumentException("No valid spawn found in dungeon.");
     }
 
-
+    
 }

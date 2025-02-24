@@ -1,4 +1,5 @@
 import entities.Creature;
+import entities.Enemy;
 import userInterface.Interface;
 import world.Dungeon;
 import world.DungeonRenderer;
@@ -6,6 +7,8 @@ import world.DungeonRenderer;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Rogue {
 
@@ -17,6 +20,7 @@ public class Rogue {
     private final Interface ui;
     private final Dungeon dungeon;
     private final DungeonRenderer renderer;
+    private final List<Enemy> enemies = new ArrayList<Enemy>();
 
     public Rogue(String name) {
         this.name = name;
@@ -24,7 +28,9 @@ public class Rogue {
         this.dungeon = new Dungeon(80, 24);
         this.renderer = new DungeonRenderer(ui);
         int[] spawn = dungeon.findSpawnLocation();
+
         this.player = new Creature("Player", 'O', Color.WHITE, spawn[0], spawn[1]);
+        this.enemies.addAll(dungeon.getEnemies());
         ui.drawString("Welcome to Rogue!", 32, 12, Color.WHITE);
         ui.refresh();
         try {
@@ -60,8 +66,17 @@ public class Rogue {
         }
     }
 
+    public void updateEnemies() {
+        for (Enemy enemy : enemies) {
+            enemy.update(player.getX(), player.getY());
+        }
+    }
+
     public void render() {
         renderer.render(dungeon, player);
+        for (Enemy enemy : enemies) {
+            renderer.renderEnemy(enemy);
+        }
 
     }
 
@@ -70,6 +85,7 @@ public class Rogue {
         while(isRunning) {
             long startTime = System.currentTimeMillis();
             processInput();
+            updateEnemies();
             render();
             long endTime = System.currentTimeMillis();
             long elapsedTime = endTime - startTime;
@@ -92,6 +108,8 @@ public class Rogue {
     public void setTimePerLoop(int timePerLoop) {
         this.timePerLoop = timePerLoop;
     }
+
+
 
     public static void main(String[] args) {
         Rogue game = new Rogue("Rogue");

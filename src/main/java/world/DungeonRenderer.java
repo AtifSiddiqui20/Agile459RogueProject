@@ -1,8 +1,11 @@
 package world;
 
+import entities.Enemy;
+import entities.Skeleton;
 import userInterface.Interface;
 import entities.Creature;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class DungeonRenderer {
     private final Interface ui;
@@ -15,6 +18,7 @@ public class DungeonRenderer {
         ui.clear();
         char[][] map = dungeon.getMap();
         boolean[][] traversed = dungeon.getTraversedMap();
+
 
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
@@ -46,6 +50,7 @@ public class DungeonRenderer {
         // Draw player
         ui.drawChar(player.getGlyph(), player.getX(), player.getY(), player.getColor());
         // Render Player Stats
+
         renderPlayerStats(player);
         ui.refresh();
     }
@@ -63,6 +68,11 @@ public class DungeonRenderer {
         );
 
         ui.drawString(stats, statsX, statsY, Color.YELLOW);
+    }
+
+    public void renderEnemy(Enemy enemy) {
+        ui.drawChar(enemy.getGlyph(), enemy.getX(), enemy.getY(), enemy.getColor());
+
     }
 }
 
