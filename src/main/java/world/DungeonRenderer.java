@@ -1,5 +1,7 @@
 package world;
 
+import entities.Gold;
+import entities.Item;
 import userInterface.Interface;
 import entities.Creature;
 import entities.Monster;
@@ -21,6 +23,7 @@ public class DungeonRenderer {
         boolean[][] traversed = dungeon.getTraversedMap();
         List<Monster> monsters = dungeon.getMonsters();
 
+
         int playerX = player.getX();
         int playerY = player.getY();
 
@@ -40,6 +43,12 @@ public class DungeonRenderer {
                         case '+':
                             tileColor = Color.RED;    // Doors
                             break;
+                        case '$' :
+                            tileColor = Color.YELLOW;
+                            break;
+                        case '*':
+                            tileColor = Color.GREEN;
+                            break;
                         default:
                             tileColor = Color.BLACK;  // Hidden
                             break;
@@ -58,6 +67,8 @@ public class DungeonRenderer {
             }
         }
 
+
+
         //  Render all discovered monsters
         for (Monster monster : monsters) {
             if (monster.isAlive() && monster.isDiscovered()) {
@@ -70,6 +81,15 @@ public class DungeonRenderer {
 
         //  Render player stats
         renderPlayerStats(player);
+
+        List<String> messageLog = dungeon.getMessageLog();
+        if (!messageLog.isEmpty()) {
+            int y = 20; // Bottom-most line for messages
+
+            for (int i = messageLog.size() - 1; i >= 0; i--) { // Iterate from last to first
+                ui.drawString(messageLog.get(i), 58, y--, Color.WHITE);
+            }
+        }
 
         ui.refresh();
     }
@@ -94,4 +114,11 @@ public class DungeonRenderer {
 
         ui.drawString(stats, statsX, statsY, Color.YELLOW);
     }
+
+    public void drawString(String message, int x, int y, Color color) {
+        ui.drawString(message, x, y, color);
+
+    }
+
+
 }

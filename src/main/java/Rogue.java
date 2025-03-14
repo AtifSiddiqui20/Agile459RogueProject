@@ -62,8 +62,8 @@ public class Rogue {
             }
 
             //  Prevent moving into walls
-            if (dungeon.getMap()[newX][newY] == '.') {
-                player.moveBy(newX - player.getX(), newY - player.getY());
+            if (dungeon.getMap()[newX][newY] == '.' || dungeon.getMap()[newX][newY] == '+' || dungeon.getMap()[newX][newY] == '$' || dungeon.getMap()[newX][newY] == '*') {
+                player.moveBy(newX - player.getX(), newY - player.getY(), dungeon);
                 dungeon.markTraversed(newX, newY);
 
                 //  Check if the player attacks a monster
@@ -120,6 +120,8 @@ public class Rogue {
         renderer.render(dungeon, player);
     }
 
+
+    int messageTimer = 1000;
     //  Main game loop
     public void run() {
         isRunning = true;
@@ -137,6 +139,12 @@ public class Rogue {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if (messageTimer > 0) {
+                messageTimer--;
+            } else {
+                dungeon.addMessage("");
+                messageTimer = 1000;
             }
         }
     }

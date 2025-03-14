@@ -1,7 +1,14 @@
 package entities;
 
 
+import world.Dungeon;
+import entities.Item;
+import entities.Gold;
+
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Creature extends Entity {
@@ -17,6 +24,7 @@ public class Creature extends Entity {
     private int attackBonus;
     private int damageBonus;
     private static final Random random = new Random();
+    private final List<Item> inventory = new ArrayList<Item>();
 
 
     public Creature(String name, char glyph, Color color, int x, int y) {
@@ -74,9 +82,12 @@ public class Creature extends Entity {
     public int getDamageBonus() {
         return damageBonus;
     }
-    public void moveBy(int mx, int my) {
+    public void moveBy(int mx, int my, Dungeon dungeon) {
         x += mx;
         y += my;
+
+        pickUpGold(dungeon);
+        pickUpItem(dungeon);
     }
 
     // Health methods
@@ -165,6 +176,42 @@ public class Creature extends Entity {
     // Gold methods
     public int getGold() {
         return gold;
+    }
+
+
+    public void pickUpGold(Dungeon dungeon) {
+        Iterator<Gold> iterator = dungeon.getGoldPile().iterator();
+        while (iterator.hasNext()) {
+            Gold gold = iterator.next();
+            if (gold.getX() == this.x && gold.getY() == this.y) {
+                addGold(gold.getAmount());
+                iterator.remove(); // Remove gold from dungeon
+                dungeon.getMap()[x][y] = '.';
+                dungeon.addMessage("You picked up " + gold.getAmount() + " gold!");
+                System.out.println(getName() + " picked up " + gold.getAmount() + " gold!");
+            }
+        }
+    }
+
+
+
+    public void pickUpItem(Dungeon dungeon) {
+        Iterator<Item> iterator = dungeon.getItems().iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getX() == this.x && item.getY() == this.y) {
+                inventory.add((item));
+                iterator.remove(); // Remove item from dungeon
+                dungeon.getMap()[x][y] = '.'; // Remove item from dungeon map
+                dungeon.addMessage("Picked up a " + item.getName() + "!");
+
+                System.out.println(getName() + " picked up a " + item.getName() + "!");
+            }
+        }
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
     }
 
     public int getArmor() {
