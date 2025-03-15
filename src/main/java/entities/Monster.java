@@ -118,32 +118,32 @@ public class Monster extends Creature {
 
     //  Initialize the list of 26 monsters using a static block
     static {
-       // addMonster('A', "Aquator", 0, Set.of("M"), 20, 5, 9, "5d8", 0, "-", "Reduces player armor by 1 with each solid hit");
-        addMonster('B', "Bat", 0, Set.of("F"), 1, 1, 8, "1d8", 2, "1-6", "");
-       // addMonster('C', "Centaur", 15, Set.of(), 25, 4, 7, "4d8", 6, "7", "");
+       addMonster('A', "Aquator", 0, Set.of("M"), 20, 5, 9, "5d8", 0, "-", "Reduces player armor by 1 with each solid hit");
+       addMonster('B', "Bat", 0, Set.of("F"), 1, 1, 8, "1d8", 2, "1-6", "");
+       addMonster('C', "Centaur", 15, Set.of(), 25, 4, 7, "4d8", 6, "7", "");
        addMonster('D', "Dragon", 100, Set.of("M"), 6800, 10, 1, "10d8", 10, "-", "");
-       // addMonster('E', "Emu", 0, Set.of("M"), 2, 1, 10, "1d8", 2, "1-4", "");
-       // addMonster('F', "Venus Flytrap", 0, Set.of("M"), 80, 8, 3, "8d8", 8, "-", "");
-        //addMonster('G', "Griffon", 20, Set.of("M", "F", "R"), 2000, 13, -2, "13d8", 4, "-", "");
-        //addMonster('H', "Hobgoblin", 0, Set.of("M"), 3, 1, 10, "1d8", 8, "1-7", "");
-        //addMonster('I', "Ice Monster", 0, Set.of("M"), 15, 1, 10, "1d8", 2, "6", "Freeze the player for 1d4 turns on a solid hit");
-        //addMonster('J', "Jabberwock", 70, Set.of(), 4000, 15, -4, "15d8", 12, "-", "");
-       // addMonster('K', "Kestral", 0, Set.of("M", "F"), 1, 1, 10, "1d8", 4, "1-4", "");
-        //addMonster('L', "Leprechaun", 100, Set.of("G"), 10, 3, 8, "3d8", 2, "6", "Steals gold on a solid hit");
-        //addMonster('M', "Medusa", 40, Set.of("M"), 200, 8, 9, "8d8", 4, "-", "Confuse with their gaze for 1d4 turns on a solid hit");
-        //addMonster('N', "Nymph", 100, Set.of(), 37, 3, 2, "3d8", 0, "-", "Steals a random unequipped magic item on a solid hit");
-       // addMonster('O', "Orc", 15, Set.of("G"), 5, 1, 5, "1d8", 8, "3-6", "");
-        //addMonster('P', "Phantom", 0, Set.of("I"), 120, 8, 8, "8d8", 4, "-", "");
-        //addMonster('Q', "Quagga", 30, Set.of("M"), 32, 3, 9, "3d8", 2, "4-7", "");
-        //addMonster('R', "Rattlesnake", 0, Set.of("M"), 9, 2, 8, "2d8", 6, "4-7", "Poison");
-        //addMonster('S', "Snake", 0, Set.of("M"), 1, 2, 3, "2d8", 3, "1-6", "");
-        //addMonster('T', "Troll", 50, Set.of("R", "M"), 120, 6, 7, "6d8", 8, "-", "");
-        //addMonster('U', "Ur-vile", 0, Set.of("M"), 190, 7, 13, "7d8", 3, "-", "");
-      ////  addMonster('V', "Vampire", 20, Set.of("R", "M"), 350, 8, 10, "8d8", 10, "-", "Reduces maximum health points. If the player hits 0, they die");
-      //  addMonster('W', "Wraith", 0, Set.of(), 55, 5, 7, "5d8", 6, "-", "Reduces experience points. If the player hits 0, they die");
-      //  addMonster('X', "Xeroc", 30, Set.of(), 100, 7, 4, "7d8", 4, "-", "Mimic other items and attack when picked up. A wand of cancellation will reveal them");
-      //  addMonster('Y', "Yeti", 30, Set.of(), 50, 4, 5, "4d8", 6, "-", "");
-      //  addMonster('Z', "Zombie", 0, Set.of("M"), 6, 2, 3, "2d8", 4, "5", "");
+       addMonster('E', "Emu", 0, Set.of("M"), 2, 1, 10, "1d8", 2, "1-4", "");
+       addMonster('F', "Venus Flytrap", 0, Set.of("M"), 80, 8, 3, "8d8", 8, "-", "");
+       addMonster('G', "Griffon", 20, Set.of("M", "F", "R"), 2000, 13, -2, "13d8", 4, "-", "");
+       addMonster('H', "Hobgoblin", 0, Set.of("M"), 3, 1, 10, "1d8", 8, "1-7", "");
+       addMonster('I', "Ice Monster", 0, Set.of("M"), 15, 1, 10, "1d8", 2, "6", "Freeze the player for 1d4 turns on a solid hit");
+       addMonster('J', "Jabberwock", 70, Set.of(), 4000, 15, -4, "15d8", 12, "-", "");
+       addMonster('K', "Kestral", 0, Set.of("M", "F"), 1, 1, 10, "1d8", 4, "1-4", "");
+       addMonster('L', "Leprechaun", 100, Set.of("G"), 10, 3, 8, "3d8", 2, "6", "Steals gold on a solid hit");
+       addMonster('M', "Medusa", 40, Set.of("M"), 200, 8, 9, "8d8", 4, "-", "Confuse with their gaze for 1d4 turns on a solid hit");
+       addMonster('N', "Nymph", 100, Set.of(), 37, 3, 2, "3d8", 0, "-", "Steals a random unequipped magic item on a solid hit");
+       addMonster('O', "Orc", 15, Set.of("G"), 5, 1, 5, "1d8", 8, "3-6", "");
+       addMonster('P', "Phantom", 0, Set.of("I"), 120, 8, 8, "8d8", 4, "-", "");
+       addMonster('Q', "Quagga", 30, Set.of("M"), 32, 3, 9, "3d8", 2, "4-7", "");
+       addMonster('R', "Rattlesnake", 0, Set.of("M"), 9, 2, 8, "2d8", 6, "4-7", "Poison");
+       addMonster('S', "Snake", 0, Set.of("M"), 1, 2, 3, "2d8", 3, "1-6", "");
+       addMonster('T', "Troll", 50, Set.of("R", "M"), 120, 6, 7, "6d8", 8, "-", "");
+       addMonster('U', "Ur-vile", 0, Set.of("M"), 190, 7, 13, "7d8", 3, "-", "");
+      addMonster('V', "Vampire", 20, Set.of("R", "M"), 350, 8, 10, "8d8", 10, "-", "Reduces maximum health points. If the player hits 0, they die");
+       addMonster('W', "Wraith", 0, Set.of(), 55, 5, 7, "5d8", 6, "-", "Reduces experience points. If the player hits 0, they die");
+        addMonster('X', "Xeroc", 30, Set.of(), 100, 7, 4, "7d8", 4, "-", "Mimic other items and attack when picked up. A wand of cancellation will reveal them");
+        addMonster('Y', "Yeti", 30, Set.of(), 50, 4, 5, "4d8", 6, "-", "");
+        addMonster('Z', "Zombie", 0, Set.of("M"), 6, 2, 3, "2d8", 4, "5", "");
     }
 
     //  Helper method to add a monster to the list
