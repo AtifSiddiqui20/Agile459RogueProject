@@ -1,6 +1,9 @@
 package world;
 
+import entities.Monster;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -8,10 +11,14 @@ public class Dungeon {
     private final int width;
     private final int height;
     private final char[][] map;
-    private final boolean [][] traversed;
+    private final boolean[][] traversed;
     private final Random random = new Random();
     private final List<Room> rooms = new ArrayList<>();
 
+    //  Monster list
+    private final List<Monster> monsters = new ArrayList<>();
+
+    //  Constructor
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
@@ -20,20 +27,19 @@ public class Dungeon {
         generateDungeon();
     }
 
+    //  Dungeon generation
     public void generateDungeon() {
-        // Fill map with walls (`#`)
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 map[x][y] = '#';
             }
         }
 
-        // Generate random rooms
-        int roomCount = 6 + random.nextInt(4); // 6-9 rooms
+        int roomCount = 6 + random.nextInt(4);
 
         for (int i = 0; i < roomCount; i++) {
-            int roomWidth = 5 + random.nextInt(6); // 5-10 width
-            int roomHeight = 4 + random.nextInt(5); // 4-8 height
+            int roomWidth = 5 + random.nextInt(6);
+            int roomHeight = 4 + random.nextInt(5);
             int x = random.nextInt(width - roomWidth - 2) + 1;
             int y = random.nextInt(height - roomHeight - 2) + 1;
 
@@ -42,7 +48,6 @@ public class Dungeon {
             createRoom(room);
         }
 
-        // Connect rooms with passages
         for (int i = 0; i < rooms.size() - 1; i++) {
             connectRooms(rooms.get(i), rooms.get(i + 1));
         }
@@ -51,32 +56,27 @@ public class Dungeon {
     private void createRoom(Room room) {
         for (int x = room.x; x < room.x + room.width; x++) {
             for (int y = room.y; y < room.y + room.height; y++) {
-                map[x][y] = '.'; // Floor
+                map[x][y] = '.';
             }
         }
-
-        // Add doors on room walls
         addDoorsToRoom(room);
     }
 
     private void addDoorsToRoom(Room room) {
-        int doorCount = 1 + random.nextInt(2); // 1-2 doors per room
+        int doorCount = 1 + random.nextInt(2);
 
         for (int i = 0; i < doorCount; i++) {
             int doorX, doorY;
 
-            // Randomly place the door on one of the room's walls
             if (random.nextBoolean()) {
-                // Left or Right wall
                 doorX = (random.nextBoolean()) ? room.x : room.x + room.width - 1;
                 doorY = room.y + random.nextInt(room.height);
             } else {
-                // Top or Bottom wall
                 doorX = room.x + random.nextInt(room.width);
                 doorY = (random.nextBoolean()) ? room.y : room.y + room.height - 1;
             }
 
-            map[doorX][doorY] = '+'; // Door
+            map[doorX][doorY] = '+';
             room.doors.add(new int[]{doorX, doorY});
         }
     }
@@ -109,25 +109,84 @@ public class Dungeon {
         }
     }
 
+    //  Monster functionality
+
+    // ➤ Add monster to the dungeon
+    public void addMonster(Monster monster) {
+        monsters.add(monster);
+    }
+
+    // ➤ Remove dead monsters from the list
+    public void removeDeadMonsters() {
+        Iterator<Monster> iterator = monsters.iterator();
+        while (iterator.hasNext()) {
+            Monster monster = iterator.next();
+            if (!monster.isAlive()) {
+                iterator.remove();
+            }
+        }
+    }
+
+    // ➤ Get all monsters
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+
+    // ➤ Check if a tile is occupied by a monster
+    private boolean isOccupied(int x, int y) {
+        return monsters.stream().anyMatch(m -> m.getX() == x && m.getY() == y);
+    }
+
+    // ➤ Spawn random monsters
+    public void spawnRandomMonsters(int count) {
+        for (int i = 0; i < count && i < Monster.MONSTER_LIST.size(); i++) {
+            int x, y;
+            do {
+                x = random.nextInt(width);
+                y = random.nextInt(height);
+            } while (map[x][y] != '.' || isOccupied(x, y));
+
+            Monster baseMonster = Monster.MONSTER_LIST.get(i);
+
+            Monster monster = new Monster(
+                    baseMonster.getName(),
+                    baseMonster.getLetter(),
+                    baseMonster.getColor(),
+                    x, y,
+                    baseMonster.getCarryChance(),
+                    baseMonster.getFlags(),
+                    baseMonster.getExp(),
+                    baseMonster.getLevel(),
+                    baseMonster.getArmor(),
+                    baseMonster.getHitPoints(),
+                    baseMonster.getDamage(),
+                    baseMonster.getLevelsFound(),
+                    baseMonster.getSpecialAbility()
+            );
+
+            addMonster(monster);
+        }
+    }
+
+    //  Traversed tiles
     public boolean isTraversed(int x, int y) {
         return traversed[x][y];
     }
 
     public void markTraversed(int x, int y) {
-        if (x >= 0 && x < width && y >= 0 && y < height){
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             traversed[x][y] = true;
             revealAdjacentTiles(x, y);
         }
-
     }
 
     private void revealAdjacentTiles(int x, int y) {
-        int [][] directions = {
+        int[][] directions = {
                 {-1, 0}, {1, 0}, {0, -1}, {0, 1},
                 {-1, -1}, {1, -1}, {-1, 1}, {1, 1}
-    };
+        };
 
-        for (int [] dir : directions) {
+        for (int[] dir : directions) {
             int dx = dir[0];
             int dy = dir[1];
             int newX = x + dx;
@@ -138,6 +197,7 @@ public class Dungeon {
         }
     }
 
+    //  Getters
     public char[][] getMap() {
         return map;
     }
@@ -150,6 +210,7 @@ public class Dungeon {
         return rooms;
     }
 
+    //  Print the dungeon layout
     public void printDungeon() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -158,6 +219,8 @@ public class Dungeon {
             System.out.println();
         }
     }
+
+    //  Find a random spawn location for the player
     public int[] findSpawnLocation() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -168,6 +231,4 @@ public class Dungeon {
         }
         throw new IllegalArgumentException("No valid spawn found in dungeon.");
     }
-
-
 }
