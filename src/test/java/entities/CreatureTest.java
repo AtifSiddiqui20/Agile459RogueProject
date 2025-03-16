@@ -1,9 +1,11 @@
 package entities;
 
 import org.junit.jupiter.api.Test;
+import world.Dungeon;
 
 import java.awt.*;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreatureTest {
@@ -25,9 +27,10 @@ class CreatureTest {
     void testMoveBy() {
         // Create a creature at position (5, 5)
         Creature creature = new Creature("Player", '@', Color.WHITE, 5, 5);
+        Dungeon dungeon = new Dungeon(80, 24);
 
         // Move the creature by (+2, -3)
-        creature.moveBy(2, -3);
+        creature.moveBy(2, -3, dungeon);
 
         // Verify new position
         assertEquals(7, creature.getX());
@@ -38,9 +41,10 @@ class CreatureTest {
     void testMoveByNegative() {
         // Create a creature at position (10, 10)
         Creature creature = new Creature("Enemy", 'E', Color.RED, 10, 10);
+        Dungeon dungeon = new Dungeon(80, 24);
 
         // Move the creature by (-3, -4)
-        creature.moveBy(-3, -4);
+        creature.moveBy(-3, -4, dungeon);
 
         // Verify new position
         assertEquals(7, creature.getX());
