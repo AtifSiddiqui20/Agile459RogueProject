@@ -195,7 +195,20 @@ public class Dungeon {
                 int y = room.y + random.nextInt(room.height);
                 String[] possibleItems = {"Potion", "Sword", "Shield"};
                 String itemName = possibleItems[random.nextInt(possibleItems.length)];
-                items.add(new Item(itemName, x, y));
+                switch (itemName) {
+                    case "Potion":
+                        map[x][y] = '!';
+                        items.add(new Item("Potion", "potion", 10, x, y));
+                        break;
+                    case "Sword":
+                        map[x][y] = ')';
+                        items.add(new Item("Sword", "sword", 30, x, y));
+                        break;
+                    case "Shield":
+                        map[x][y] = '[';
+                        items.add(new Item("Shield", "shield", 15, x, y));
+                        break;
+                }
                 map[x][y] = '*';
             }
         }

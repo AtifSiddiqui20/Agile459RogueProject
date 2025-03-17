@@ -86,7 +86,7 @@ public class DungeonRenderer {
         if (!messageLog.isEmpty()) {
             int y = 20; // Bottom-most line for messages
 
-            for (int i = messageLog.size() - 1; i >= 0; i--) { // Iterate from last to first
+            for (int i = messageLog.size() - 1; i >= 0; i--) {
                 ui.drawString(messageLog.get(i), 58, y--, Color.WHITE);
             }
         }
@@ -115,10 +115,30 @@ public class DungeonRenderer {
         ui.drawString(stats, statsX, statsY, Color.YELLOW);
     }
 
+    public void renderInventory(Creature player) {
+
+        List<Item> inventory = player.getInventory();
+        int startX = 65;
+        int startY = 2;
+        ui.drawString("Inventory:", startX, startY, Color.YELLOW);
+
+        startY++;
+
+        if (inventory.isEmpty()) {
+            ui.drawString(" - Empty -", startX, startY, Color.GRAY);
+
+        } else {
+            for (Item item : inventory) {
+                ui.drawString("- " + item.getName(), startX, startY++, Color.WHITE);
+
+            }
+        }
+        ui.refresh();
+    }
+
+
     public void drawString(String message, int x, int y, Color color) {
         ui.drawString(message, x, y, color);
 
     }
-
-
 }

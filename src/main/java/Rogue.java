@@ -1,4 +1,5 @@
 import entities.Creature;
+import entities.Item;
 import entities.Monster;
 import userInterface.Interface;
 import world.Dungeon;
@@ -48,6 +49,7 @@ public class Rogue {
     //  Process player input
     public void processInput() {
         InputEvent event = ui.getNextInput();
+        List<Item> inventory = player.getInventory();
         if (event == null) return;
 
         if (event instanceof KeyEvent keyPress) {
@@ -59,6 +61,8 @@ public class Rogue {
                 case KeyEvent.VK_DOWN -> newY++;
                 case KeyEvent.VK_LEFT -> newX--;
                 case KeyEvent.VK_RIGHT -> newX++;
+                case KeyEvent.VK_1 -> player.useItem(inventory.getFirst());
+
             }
 
             //  Prevent moving into walls
@@ -118,6 +122,7 @@ public class Rogue {
     public void render() {
         dungeon.removeDeadMonsters(); //  Remove dead monsters
         renderer.render(dungeon, player);
+        renderer.renderInventory(player);
     }
 
 

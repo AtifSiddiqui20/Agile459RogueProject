@@ -60,6 +60,26 @@ public class Creature extends Entity {
         else damageBonus = 0;
     }
 
+    public void useItem(Item item) {
+        if (item == null) return;
+
+        switch (item.getType()) {
+            case "potion":
+                health += item.getEffectValue();
+                if (health > maxHealth) health = maxHealth;
+                System.out.println("You used a " + item.getName() + " and restored " + item.getEffectValue() + " HP!");
+                break;
+            case "shield":
+                defense += item.getEffectValue();
+                System.out.println("You equipped a " + item.getName() + " and gained " + item.getEffectValue() + " armor!");
+                break;
+            default:
+                System.out.println("This item has no use yet!");
+        }
+
+        inventory.remove(item);
+    }
+
     public void setStrength(int strength) {
         if (strength < 3) {
             this.strength = 3;  //  Minimum strength is 3
@@ -206,9 +226,15 @@ public class Creature extends Entity {
                 dungeon.addMessage("Picked up a " + item.getName() + "!");
 
                 System.out.println(getName() + " picked up a " + item.getName() + "!");
+                System.out.println("Inventory now contains:");
+                for (Item i : inventory) {
+                    System.out.println("- " + i.getName());
+                }
             }
         }
     }
+
+
 
     public List<Item> getInventory() {
         return inventory;
