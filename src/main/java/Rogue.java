@@ -1,4 +1,5 @@
 import entities.Creature;
+import entities.Item;
 import entities.Monster;
 import userInterface.Interface;
 import world.Dungeon;
@@ -48,6 +49,7 @@ public class Rogue {
     //  Process player input
     public void processInput() {
         InputEvent event = ui.getNextInput();
+        List<Item> inventory = player.getInventory();
         if (event == null) return;
 
         if (event instanceof KeyEvent keyPress) {
@@ -59,11 +61,13 @@ public class Rogue {
                 case KeyEvent.VK_DOWN -> newY++;
                 case KeyEvent.VK_LEFT -> newX--;
                 case KeyEvent.VK_RIGHT -> newX++;
+                case KeyEvent.VK_1 -> player.useItem(inventory.getFirst());
+
             }
 
             //  Prevent moving into walls
-            if (dungeon.getMap()[newX][newY] == '.') {
-                player.moveBy(newX - player.getX(), newY - player.getY());
+            if (dungeon.getMap()[newX][newY] == '.' || dungeon.getMap()[newX][newY] == '+' || dungeon.getMap()[newX][newY] == '$' || dungeon.getMap()[newX][newY] == '*') {
+                player.moveBy(newX - player.getX(), newY - player.getY(), dungeon);
                 dungeon.markTraversed(newX, newY);
 
                 //  Check if the player attacks a monster
@@ -118,8 +122,11 @@ public class Rogue {
     public void render() {
         dungeon.removeDeadMonsters(); //  Remove dead monsters
         renderer.render(dungeon, player);
+        renderer.renderInventory(player);
     }
 
+
+    int messageTimer = 1000;
     //  Main game loop
     public void run() {
         isRunning = true;
@@ -137,6 +144,12 @@ public class Rogue {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if (messageTimer > 0) {
+                messageTimer--;
+            } else {
+                dungeon.addMessage("");
+                messageTimer = 1000;
             }
         }
     }

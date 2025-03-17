@@ -1,5 +1,7 @@
 package world;
 
+import entities.Gold;
+import entities.Item;
 import entities.Monster;
 
 import java.util.ArrayList;
@@ -8,19 +10,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Dungeon {
-    private final int width;
+    private int width;
     private final int height;
     private final char[][] map;
     private final boolean[][] traversed;
     private final Random random = new Random();
     private final List<Room> rooms = new ArrayList<>();
+    private final List<Gold> goldPile = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
+    private final List<String> messageLog = new ArrayList<>();
 
     //  Monster list
     private final List<Monster> monsters = new ArrayList<>();
 
     //  Constructor
     public Dungeon(int width, int height) {
-        this.width = width;
+        this.width = 70;
         this.height = height;
         this.map = new char[width][height];
         this.traversed = new boolean[width][height];
@@ -34,6 +39,7 @@ public class Dungeon {
                 map[x][y] = '#';
             }
         }
+
 
         int roomCount = 6 + random.nextInt(4);
 
@@ -51,6 +57,9 @@ public class Dungeon {
         for (int i = 0; i < rooms.size() - 1; i++) {
             connectRooms(rooms.get(i), rooms.get(i + 1));
         }
+
+        addGoldAndItems();
+       // printDungeon();
     }
 
     private void createRoom(Room room) {
@@ -60,6 +69,7 @@ public class Dungeon {
             }
         }
         addDoorsToRoom(room);
+
     }
 
     private void addDoorsToRoom(Room room) {
@@ -165,8 +175,45 @@ public class Dungeon {
             );
 
             addMonster(monster);
+            printDungeon();
         }
     }
+
+    // Gold and item functionality
+
+    public void addGoldAndItems() {
+        for (Room room: rooms) {
+            if (random.nextBoolean()) {
+                int x = room.x + random.nextInt(room.width);
+                int y = room.y + random.nextInt(room.height);
+                Gold gold = new Gold(x, y, random.nextInt(100) + 1);
+                goldPile.add(gold);
+                map[x][y] = '$';
+            }
+            if (random.nextBoolean()) {
+                int x = room.x + random.nextInt(room.width);
+                int y = room.y + random.nextInt(room.height);
+                String[] possibleItems = {"Potion", "Sword", "Shield"};
+                String itemName = possibleItems[random.nextInt(possibleItems.length)];
+                switch (itemName) {
+                    case "Potion":
+                        map[x][y] = '!';
+                        items.add(new Item("Potion", "potion", 10, x, y));
+                        break;
+                    case "Sword":
+                        map[x][y] = ')';
+                        items.add(new Item("Sword", "sword", 30, x, y));
+                        break;
+                    case "Shield":
+                        map[x][y] = '[';
+                        items.add(new Item("Shield", "shield", 15, x, y));
+                        break;
+                }
+                map[x][y] = '*';
+            }
+        }
+    }
+
 
     //  Traversed tiles
     public boolean isTraversed(int x, int y) {
@@ -177,6 +224,7 @@ public class Dungeon {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             traversed[x][y] = true;
             revealAdjacentTiles(x, y);
+
         }
     }
 
@@ -210,6 +258,14 @@ public class Dungeon {
         return rooms;
     }
 
+    public List<Gold> getGoldPile() {
+        return goldPile;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
     //  Print the dungeon layout
     public void printDungeon() {
         for (int y = 0; y < height; y++) {
@@ -230,5 +286,18 @@ public class Dungeon {
             }
         }
         throw new IllegalArgumentException("No valid spawn found in dungeon.");
+    }
+
+    public void addMessage(String s) {
+        messageLog.add(s);
+        if (messageLog.size() > 5) {
+            messageLog.remove(0);
+        }
+
+
+    }
+
+    public List<String> getMessageLog() {
+        return messageLog;
     }
 }
