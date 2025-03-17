@@ -1,7 +1,13 @@
 plugins {
     id 'java'
     id 'application'
+    id 'jacoco'
 }
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -35,4 +41,28 @@ test {
     testLogging {
         events "passed", "failed", "skipped"
     }
+    finalizedBy jacocoTestReport
+
 }
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
+    }
+}
+check.dependsOn jacocoTestCoverageVerification
