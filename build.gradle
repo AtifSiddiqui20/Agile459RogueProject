@@ -5,9 +5,8 @@ plugins {
 }
 
 jacoco {
-    toolVersion = "0.8.13"
+    toolVersion = "0.8.12"
 }
-
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -16,6 +15,9 @@ repositories {
     mavenCentral()
     maven {
         url = "https://jitpack.io"
+    }
+    maven {
+        url = "https://repo.maven.apache.org/maven2"
     }
 }
 
@@ -28,11 +30,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     testImplementation 'org.mockito:mockito-core:5.7.0'
-    testImplementation 'org.jacoco:org.jacoco.agent:0.8.13'
+    testImplementation 'org.jacoco:org.jacoco.agent:0.8.12'
 }
 
 application {
-
     mainClass = 'Rogue'
 }
 
@@ -43,7 +44,6 @@ test {
         events "passed", "failed", "skipped"
     }
     finalizedBy jacocoTestReport
-
 }
 
 jacocoTestReport {
@@ -51,7 +51,6 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
-
 }
 
 jacocoTestCoverageVerification {
