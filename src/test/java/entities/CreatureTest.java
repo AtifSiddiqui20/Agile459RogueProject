@@ -5,7 +5,7 @@ import world.Dungeon;
 
 import java.awt.*;
 
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreatureTest {
